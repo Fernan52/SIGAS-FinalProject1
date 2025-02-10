@@ -143,8 +143,8 @@ const ProductCard = ({ product, onCartUpdate }) => {
         alt={product.name}
         style={{ maxWidth: "100%", borderRadius: "5px" }}
       />
-      <h3>{product.name}</h3>
-      <p>$ {product.price.toFixed(2)}</p>
+      <h3 style={{ color: "black" }}>{product.name}</h3>
+      <p style={{ color: "black" }}>$ {product.price.toFixed(2)}</p>
       <div style={{ margin: "10px 0" }}>
         <button
           onClick={() => setQuantity(Math.max(1, quantity - 1))}
@@ -157,7 +157,7 @@ const ProductCard = ({ product, onCartUpdate }) => {
         >
           -
         </button>
-        <span>{quantity}</span>
+        <span style={{ color: "black" }}>{quantity}</span>
         <button
           onClick={() => setQuantity(quantity + 1)}
           style={{
@@ -174,8 +174,8 @@ const ProductCard = ({ product, onCartUpdate }) => {
         onClick={handleAddToCart}
         style={{
           padding: "10px",
-          backgroundColor: "#007bff",
-          color: "#fff",
+          backgroundColor: "red",
+          color: "white",
           border: "none",
           borderRadius: "5px",
           cursor: "pointer",

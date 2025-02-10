@@ -18,21 +18,19 @@ const HomePage = () => {
   ];
 
   const [selectedCategory, setSelectedCategory] = useState("Fruits");
-  const [isCartEmpty, setIsCartEmpty] = useState(true); // Track if cart is empty
+  const [isCartEmpty, setIsCartEmpty] = useState(true);
   const navigate = useNavigate();
 
-  // Fetch cart state on component mount
   useEffect(() => {
     const fetchCartState = async () => {
       const username = localStorage.getItem("username");
       if (!username) {
-        setIsCartEmpty(true); // No user logged in, cart is empty
+        setIsCartEmpty(true);
         return;
       }
 
       try {
-        // Fetch cart from /get_cart endpoint
-        const response = await fetch(`http://localhost:4005/get_cart/{username}`, {
+        const response = await fetch(`http://localhost:4005/get_cart/${username}`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -44,10 +42,10 @@ const HomePage = () => {
         }
 
         const data = await response.json();
-        setIsCartEmpty(!data.cart || data.cart.length === 0); // Update cart state based on response
+        setIsCartEmpty(!data.cart || data.cart.length === 0);
       } catch (error) {
         console.error("Error fetching cart state:", error);
-        setIsCartEmpty(true); // Default to empty if error occurs
+        setIsCartEmpty(true);
       }
     };
 
@@ -55,7 +53,7 @@ const HomePage = () => {
   }, []);
 
   const handleCartUpdate = () => {
-    setIsCartEmpty(false); // Update state when a product is added to cart
+    setIsCartEmpty(false);
   };
 
   const handleLogout = () => {
@@ -66,7 +64,7 @@ const HomePage = () => {
   return (
     <div className="main-container">
       <header className="header">
-        <h1>The Digital Shopping Cart</h1>
+        <h1>SIGAS</h1>
         <button className="logout-button" onClick={handleLogout}>
           Logout
         </button>
@@ -77,9 +75,7 @@ const HomePage = () => {
           {categories.map((category) => (
             <button
               key={category}
-              className={`category-button ${
-                category === selectedCategory ? "active" : ""
-              }`}
+              className={`category-button ${category === selectedCategory ? "active" : ""}`}
               onClick={() => setSelectedCategory(category)}
             >
               {category}
@@ -90,24 +86,17 @@ const HomePage = () => {
         <div className="main-content">
           <div className="sidebar">
             <h2>Shopping Cart</h2>
-            {/* Change button based on cart state */}
             {isCartEmpty ? (
               <p>Your cart is empty!</p>
             ) : (
-              <button
-                onClick={() => navigate("/cart")}
-                className="view-cart-button"
-              >
+              <button onClick={() => navigate("/cart")} className="view-cart-button">
                 View Cart
               </button>
             )}
           </div>
 
           <div className="products-container">
-            <SearchProducts
-              selectedCategory={selectedCategory}
-              onCartUpdate={handleCartUpdate} // Pass the callback to update cart state
-            />
+            <SearchProducts selectedCategory={selectedCategory} onCartUpdate={handleCartUpdate} />
           </div>
         </div>
       </div>

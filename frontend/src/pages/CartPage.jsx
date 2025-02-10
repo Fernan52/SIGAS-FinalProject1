@@ -266,7 +266,7 @@ const CartPage = () => {
                     </button>
                   </span>
                   <span className="item-price">
-                    ₪ {(item.price * item.quantity).toFixed(2)}
+                    $ {(item.price * item.quantity).toFixed(2)}
                   </span>
                 </div>
                 <div className="item-actions">
@@ -287,7 +287,7 @@ const CartPage = () => {
             ))}
           </ul>
           <div className="cart-summary">
-            <strong>Total: ₪ {calculateTotalPrice()}</strong>
+            <strong>Total: $ {calculateTotalPrice()}</strong>
           </div>
           <button className="sort-button" onClick={sortCart}>
             Sort Cart by Price
