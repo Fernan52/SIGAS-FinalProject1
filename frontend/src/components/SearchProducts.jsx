@@ -144,7 +144,7 @@ const ProductCard = ({ product, onCartUpdate }) => {
         style={{ maxWidth: "100%", borderRadius: "5px" }}
       />
       <h3>{product.name}</h3>
-      <p>₪ {product.price.toFixed(2)}</p>
+      <p>$ {product.price.toFixed(2)}</p>
       <div style={{ margin: "10px 0" }}>
         <button
           onClick={() => setQuantity(Math.max(1, quantity - 1))}

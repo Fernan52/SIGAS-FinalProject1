@@ -32,7 +32,7 @@ const HomePage = () => {
 
       try {
         // Fetch cart from /get_cart endpoint
-        const response = await fetch(`http://localhost:4005/get_cart/${username}`, {
+        const response = await fetch(`http://localhost:4005/get_cart/{username}`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",

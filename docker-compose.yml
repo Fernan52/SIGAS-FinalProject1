@@ -1,13 +1,16 @@
+version: '3.8'
+
 services:
   mongo:
     image: mongo:latest
-    container_name: mongo_service
+    container_name: mongo
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_INITDB_ROOT_USERNAME}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_INITDB_ROOT_PASSWORD}
     ports:
       - "27017:27017"
-    environment:
-      - MONGO_INITDB_ROOT_USERNAME=SIGASDB
-      - MONGO_INITDB_ROOT_PASSWORD=admin
-    restart: always
+    volumes:
+      - mongo-data:/data/db
 
   add_product:
     build:
@@ -16,8 +19,10 @@ services:
     ports:
       - "4000:4000"
     environment:
-      - MONGO_URI=mongodb://SIGASDB:admin@mongo_service:27017/shopping_cart?authSource=admin
+      - MONGO_URI=${MONGO_URI}
     restart: always
+    depends_on:
+      - mongo
 
   checkout:
     build:
@@ -26,8 +31,10 @@ services:
     ports:
       - "4002:4002"
     environment:
-      - MONGO_URI=mongodb://SIGASDB:admin@mongo_service:27017/shopping_cart?authSource=admin
+      - MONGO_URI=${MONGO_URI}
     restart: always
+    depends_on:
+      - mongo
 
   delete_product:
     build:
@@ -36,8 +43,10 @@ services:
     ports:
       - "4003:4003"
     environment:
-      - MONGO_URI=mongodb://SIGASDB:admin@mongo_service:27017/shopping_cart?authSource=admin
+      - MONGO_URI=${MONGO_URI}
     restart: always
+    depends_on:
+      - mongo
 
   get_cart:
     build:
@@ -46,8 +55,10 @@ services:
     ports:
       - "4005:4005"
     environment:
-      - MONGO_URI=mongodb://SIGASDB:admin@mongo_service:27017/shopping_cart?authSource=admin
+      - MONGO_URI=${MONGO_URI}
     restart: always
+    depends_on:
+      - mongo
 
   login:
     build:
@@ -56,8 +67,10 @@ services:
     ports:
       - "4006:4006"
     environment:
-      - MONGO_URI=mongodb://SIGASDB:admin@mongo_service:27017/shopping_cart?authSource=admin
+      - MONGO_URI=${MONGO_URI}
     restart: always
+    depends_on:
+      - mongo
 
   register:
     build:
@@ -66,8 +79,10 @@ services:
     ports:
       - "4007:4007"
     environment:
-      - MONGO_URI=mongodb://SIGASDB:admin@mongo_service:27017/shopping_cart?authSource=admin
+      - MONGO_URI=${MONGO_URI}
     restart: always
+    depends_on:
+      - mongo
 
   reset_cart:
     build:
@@ -76,8 +91,10 @@ services:
     ports:
       - "4008:4008"
     environment:
-      - MONGO_URI=mongodb://SIGASDB:admin@mongo_service:27017/shopping_cart?authSource=admin
+      - MONGO_URI=${MONGO_URI}
     restart: always
+    depends_on:
+      - mongo
 
   search_products:
     build:
@@ -86,8 +103,10 @@ services:
     ports:
       - "4009:4009"
     environment:
-      - MONGO_URI=mongodb://SIGASDB:admin@mongo_service:27017/shopping_cart?authSource=admin
+      - MONGO_URI=${MONGO_URI}
     restart: always
+    depends_on:
+      - mongo
 
   sort_cart:
     build:
@@ -96,8 +115,10 @@ services:
     ports:
       - "4010:4010"
     environment:
-      - MONGO_URI=mongodb://SIGASDB:admin@mongo_service:27017/shopping_cart?authSource=admin
+      - MONGO_URI=${MONGO_URI}
     restart: always
+    depends_on:
+      - mongo
 
   update_quantity:
     build:
@@ -106,8 +127,10 @@ services:
     ports:
       - "4011:4011"
     environment:
-      - MONGO_URI=mongodb://SIGASDB:admin@mongo_service:27017/shopping_cart?authSource=admin
+      - MONGO_URI=${MONGO_URI}
     restart: always
+    depends_on:
+      - mongo
 
   get_products:
     build:
@@ -116,8 +139,10 @@ services:
     ports:
       - "4012:4012"
     environment:
-      - MONGO_URI=mongodb://SIGASDB:admin@mongo_service:27017/shopping_cart?authSource=admin
+      - MONGO_URI=${MONGO_URI}
     restart: always
+    depends_on:
+      - mongo
 
   add_product_nodejs:
     build:
@@ -144,3 +169,6 @@ services:
     stdin_open: true
     tty: true
     restart: always
+
+volumes:
+  mongo-data:

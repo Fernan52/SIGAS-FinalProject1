@@ -2,13 +2,13 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 from pymongo import MongoClient
 from werkzeug.security import generate_password_hash
-import os
 
 app = Flask(__name__)
 CORS(app)
 
-mongo_uri = os.getenv("MONGO_URI", "mongodb://SIGASDB:admin@mongo_service:27017/shopping_cart?authSource=admin")
-client = MongoClient(mongo_uri)
+client = MongoClient(
+    "mongodb+srv://moranavraham11:AW9ta2zrTeZiWdSh@cluster0.dogxq.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+)
 db = client.shopping_cart
 
 @app.route('/register', methods=['POST'])
@@ -24,16 +24,20 @@ def register():
     if not username or not password:
         return jsonify({"error": "Username and password are required"}), 400
 
-    # Check if the username already exists
-    if db.users.find_one({"username": username}):
-        return jsonify({"error": "Username already exists"}), 409
+    try:
+        # Check if the username already exists
+        if db.users.find_one({"username": username}):
+            return jsonify({"error": "Username already exists"}), 409
 
-    # Save the new user to the database
-    hashed_password = generate_password_hash(password)
-    user = {"username": username, "password": hashed_password, "cart": []}  # Add an empty cart
-    db.users.insert_one(user)
+        # Save the new user to the database
+        hashed_password = generate_password_hash(password)
+        user = {"username": username, "password": hashed_password, "cart": []}  # Add an empty cart
+        db.users.insert_one(user)
 
-    return jsonify({"message": "User registered successfully!"}), 201
+        return jsonify({"message": "User registered successfully!"}), 201
+    except Exception as e:
+        print(f"Error accessing MongoDB: {e}")
+        return jsonify({"error": "Internal server error"}), 500
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=4007)

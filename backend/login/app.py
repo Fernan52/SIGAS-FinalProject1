@@ -2,14 +2,11 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS  # Import CORS
 from pymongo import MongoClient
 from werkzeug.security import check_password_hash
-import os
 
 app = Flask(__name__)
 CORS(app)  # Enable CORS for everyone
 
-# Obtener la URI de MongoDB desde las variables de entorno
-mongo_uri = os.getenv("MONGO_URI", "mongodb://SIGASDB:admin@mongo_service:27017/shopping_cart?authSource=admin")
-client = MongoClient(mongo_uri)
+client = MongoClient("mongodb+srv://moranavraham11:AW9ta2zrTeZiWdSh@cluster0.dogxq.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
 db = client.shopping_cart
 
 @app.route('/login', methods=['POST'])
