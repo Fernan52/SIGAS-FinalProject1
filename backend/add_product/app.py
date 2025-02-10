@@ -8,27 +8,27 @@ CORS(app)  # Enable CORS for everyone
 
 try:
     client = MongoClient(
-        "mongodb+srv://moranavraham11:AW9ta2zrTeZiWdSh@cluster0.dogxq.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+        "MONGO_URI=mongodb://SIGASDB:admin@mongo_service:27017/shopping_cart?authSource=admin"
     )
     db = client.shopping_cart
 
     @app.route('/add_product', methods=['POST'])
     def add_product():
         data = request.get_json()
-        username = data.get("username")  # קבלת שם המשתמש מהבקשה
+        username = data.get("username")  
         product = {
             "name": data["name"],
             "category": data["category"],
             "price": data["price"],
-            "quantity": data["quantity"]  # הוספת כמות המוצר
+            "quantity": data["quantity"]  
         }
 
-        # בדוק אם המשתמש קיים
+        
         user = db.users.find_one({"username": username})
         if not user:
             return jsonify({"error": "User not found"}), 404
 
-        # הוסף את המוצר לעגלת המשתמש
+        
         db.users.update_one(
             {"username": username},
             {"$push": {"cart": product}}

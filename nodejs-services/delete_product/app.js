@@ -10,7 +10,7 @@ app.use(express.json()); // For parsing application/json
 
 // MongoDB connection
 mongoose.connect(
-  'mongodb+srv://moranavraham11:AW9ta2zrTeZiWdSh@cluster0.dogxq.mongodb.net/shopping_cart?retryWrites=true&w=majority',
+  'MONGO_URI=mongodb://SIGASDB:admin@mongo_service:27017/shopping_cart?authSource=admin',
   { useNewUrlParser: true, useUnifiedTopology: true }
 )
   .then(() => console.log('Connected to MongoDB'))

@@ -6,7 +6,7 @@ app = Flask(__name__)
 CORS(app)  # Enable CORS for everyone
 
 # Connect to MongoDB
-client = MongoClient("mongodb+srv://moranavraham11:AW9ta2zrTeZiWdSh@cluster0.dogxq.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
+client = MongoClient("MONGO_URI=mongodb://SIGASDB:admin@mongo_service:27017/shopping_cart?authSource=admin")
 db = client.shopping_cart
 
 @app.route('/search_products', methods=['GET'])
