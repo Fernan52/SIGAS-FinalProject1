@@ -2,12 +2,14 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS  # Import CORS
 from pymongo import MongoClient
 from bson.objectid import ObjectId
+import os
 
 app = Flask(__name__)
 CORS(app)  # Enable CORS for everyone
 
 # Connect to MongoDB
-client = MongoClient("MONGO_URI=mongodb://SIGASDB:admin@mongo_service:27017/shopping_cart?authSource=admin")
+mongo_uri = os.getenv("MONGO_URI", "mongodb://SIGASDB:admin@mongo_service:27017/shopping_cart?authSource=admin")
+client = MongoClient(mongo_uri)
 db = client.shopping_cart
 
 @app.route('/sort_cart', methods=['POST'])

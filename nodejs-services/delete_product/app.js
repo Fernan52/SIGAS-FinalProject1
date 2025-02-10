@@ -9,10 +9,8 @@ app.use(cors());
 app.use(express.json()); // For parsing application/json
 
 // MongoDB connection
-mongoose.connect(
-  'MONGO_URI=mongodb://SIGASDB:admin@mongo_service:27017/shopping_cart?authSource=admin',
-  { useNewUrlParser: true, useUnifiedTopology: true }
-)
+const mongoUri = process.env.MONGO_URI || 'mongodb://SIGASDB:admin@mongo_service:27017/shopping_cart?authSource=admin';
+mongoose.connect(mongoUri, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log('Connected to MongoDB'))
   .catch((err) => console.error('Error connecting to MongoDB:', err));
 
