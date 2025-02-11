@@ -96,6 +96,9 @@ const HomePage = () => {
             <button onClick={() => navigate("/purchase-history")} className="view-history-button">
               View Purchase History
             </button>
+            <button onClick={() => navigate("/inventory")} className="view-inventory-button">
+              Manage Inventory
+            </button>
           </div>
 
           <div className="products-container">

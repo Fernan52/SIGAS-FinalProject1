@@ -163,3 +163,13 @@ services:
     environment:
       - MONGO_URI=mongodb+srv://moranavraham11:AW9ta2zrTeZiWdSh@cluster0.dogxq.mongodb.net/shopping_cart?retryWrites=true&w=majority&appName=Cluster0
     restart: always
+
+  inventory:
+    build:
+      context: ./backend/inventory
+    container_name: inventory_service
+    ports:
+      - "4015:4015"
+    environment:
+      - MONGO_URI=mongodb+srv://moranavraham11:AW9ta2zrTeZiWdSh@cluster0.dogxq.mongodb.net/shopping_cart?retryWrites=true&w=majority&appName=Cluster0
+    restart: always
