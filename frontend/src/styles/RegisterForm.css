@@ -1,0 +1,61 @@
+.register-form {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: white;
+  border: 1px solid red;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.register-form h2 {
+  color: red;
+  margin-bottom: 20px;
+}
+
+.register-input {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid red;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+.register-button {
+  width: 100%;
+  padding: 10px;
+  background-color: red;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.register-button:hover {
+  background-color: darkred;
+}
+
+.login-link {
+  color: red;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.login-link:hover {
+  color: darkred;
+}
+
+.success-message {
+  color: green;
+  margin-bottom: 10px;
+}
+
+.error-message {
+  color: red;
+  margin-bottom: 10px;
+}
+

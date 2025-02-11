@@ -1,21 +1,24 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import "../styles/RegisterForm.css"; // Import the CSS file
 
 const RegisterForm = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [message, setMessage] = useState("");
+  const [error, setError] = useState("");
   const navigate = useNavigate();
 
   const handleRegister = async (e) => {
     e.preventDefault();
 
     if (username.length < 3) {
-      alert("Username must be at least 3 characters long.");
+      setError("Username must be at least 3 characters long.");
       return;
     }
 
     if (password.length < 6) {
-      alert("Password must be at least 6 characters long.");
+      setError("Password must be at least 6 characters long.");
       return;
     }
 
@@ -31,28 +34,32 @@ const RegisterForm = () => {
       const data = await response.json();
 
       if (response.ok) {
-        alert("Registered successfully! Now you can log in.");
-        navigate("/login"); 
+        setMessage("Registered successfully! Now you can log in.");
+        setError("");
+        setTimeout(() => navigate("/login"), 2000); // Redirect after 2 seconds
       } else {
-        alert(data.error || "Registration failed!");
+        setError(data.error || "Registration failed!");
+        setMessage("");
       }
     } catch (error) {
       console.error("Error registering:", error);
-      alert("An error occurred. Please try again later.");
-
+      setError("An error occurred. Please try again later.");
+      setMessage("");
     }
   };
 
   return (
-    <form onSubmit={handleRegister} style={{ maxWidth: "400px", margin: "0 auto" }}>
+    <form onSubmit={handleRegister} className="register-form">
       <h2>Register</h2>
+      {message && <p className="success-message">{message}</p>}
+      {error && <p className="error-message">{error}</p>}
       <input
         type="text"
         placeholder="Username"
         value={username}
         onChange={(e) => setUsername(e.target.value)}
         required
-        style={{ display: "block", margin: "10px 0", padding: "8px", width: "100%" }}
+        className="register-input"
       />
       <input
         type="password"
@@ -60,28 +67,14 @@ const RegisterForm = () => {
         value={password}
         onChange={(e) => setPassword(e.target.value)}
         required
-        style={{ display: "block", margin: "10px 0", padding: "8px", width: "100%" }}
+        className="register-input"
       />
-      <button
-        type="submit"
-        style={{
-          backgroundColor: "#38a169",
-          color: "white",
-          padding: "10px 20px",
-          border: "none",
-          borderRadius: "4px",
-          cursor: "pointer",
-          width: "100%",
-        }}
-      >
+      <button type="submit" className="register-button">
         Register
       </button>
-      <p style={{ marginTop: "10px" }}>
+      <p>
         Already have an account?{" "}
-        <span
-          onClick={() => navigate("/login")}
-          style={{ cursor: "pointer", color: "blue" }}
-        >
+        <span onClick={() => navigate("/login")} className="login-link">
           Log in here
         </span>
       </p>

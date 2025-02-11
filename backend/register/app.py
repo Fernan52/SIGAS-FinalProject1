@@ -1,12 +1,14 @@
+# -*- coding: utf-8 -*-
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-from pymongo import MongoClient
-from werkzeug.security import generate_password_hash
 from flask_mail import Mail, Message
+from werkzeug.security import generate_password_hash
+from pymongo import MongoClient
 from dotenv import load_dotenv
 import os
 import jwt
 from functools import wraps
+import requests
 
 # Cargar variables de entorno desde el archivo .env
 load_dotenv()
@@ -30,6 +32,7 @@ client = MongoClient(
 db = client.shopping_cart
 
 SECRET_KEY = os.getenv('SECRET_KEY', 'your_secret_key')
+WEBHOOK_URL = "https://hooks.zapier.com/hooks/catch/123456/abcdef"  # Reemplaza con tu URL de webhook
 
 def token_required(f):
     @wraps(f)
@@ -73,6 +76,13 @@ def register(current_user):
         msg = Message("Registro Exitoso en SIGAS", recipients=[username])
         msg.body = f"Hola {username},\n\nRegistro exitoso en el sistema SIGAS, ahora puede ingresar."
         mail.send(msg)
+
+        # Llamar al webhook
+        webhook_data = {
+            "username": username,
+            "message": "Registro exitoso en el sistema SIGAS, ahora puede ingresar."
+        }
+        requests.post(WEBHOOK_URL, json=webhook_data)
 
         return jsonify({"message": "User registered successfully!"}), 201
     except Exception as e:

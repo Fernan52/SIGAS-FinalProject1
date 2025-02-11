@@ -1,3 +1,5 @@
+version: '3.8'
+
 services:
   add_product:
     build:
@@ -7,7 +9,7 @@ services:
       - "4000:4000"
     environment:
       - MONGO_URI=mongodb+srv://moranavraham11:AW9ta2zrTeZiWdSh@cluster0.dogxq.mongodb.net/shopping_cart?retryWrites=true&w=majority&appName=Cluster0
-      
+      - PYTHONIOENCODING=utf-8
     restart: always
 
   checkout:
@@ -18,6 +20,7 @@ services:
       - "4002:4002"
     environment:
       - MONGO_URI=mongodb+srv://moranavraham11:AW9ta2zrTeZiWdSh@cluster0.dogxq.mongodb.net/shopping_cart?retryWrites=true&w=majority&appName=Cluster0
+      - PYTHONIOENCODING=utf-8
     restart: always
 
   delete_product:
@@ -28,8 +31,8 @@ services:
       - "4003:4003"
     environment:
       - MONGO_URI=mongodb+srv://moranavraham11:AW9ta2zrTeZiWdSh@cluster0.dogxq.mongodb.net/shopping_cart?retryWrites=true&w=majority&appName=Cluster0
+      - PYTHONIOENCODING=utf-8
     restart: always
-
 
   get_cart:
     build:
@@ -39,6 +42,7 @@ services:
       - "4005:4005"
     environment:
       - MONGO_URI=mongodb+srv://moranavraham11:AW9ta2zrTeZiWdSh@cluster0.dogxq.mongodb.net/shopping_cart?retryWrites=true&w=majority&appName=Cluster0
+      - PYTHONIOENCODING=utf-8
     restart: always
 
   login:
@@ -49,6 +53,7 @@ services:
       - "4006:4006"
     environment:
       - MONGO_URI=mongodb+srv://moranavraham11:AW9ta2zrTeZiWdSh@cluster0.dogxq.mongodb.net/shopping_cart?retryWrites=true&w=majority&appName=Cluster0
+      - PYTHONIOENCODING=utf-8
     restart: always
 
   register:
@@ -58,13 +63,14 @@ services:
     ports:
       - "4007:4007"
     environment:
-      - MONGO_URI=mongodb+srv://moranavraham11:AW9ta2zrTeZiWdSh@cluster0.dogxq.mongodb.net/shopping_cart?retryWrites=true&w=majority&appName=Cluster0
       - MAIL_SERVER=smtp.gmail.com
       - MAIL_PORT=587
       - MAIL_USE_TLS=True
       - MAIL_USERNAME=tu_correo@gmail.com
       - MAIL_PASSWORD=tu_contraseña_de_gmail
       - MAIL_DEFAULT_SENDER=tu_correo@gmail.com
+      - SECRET_KEY=your_secret_key
+      - PYTHONIOENCODING=utf-8
     restart: always
 
   reset_cart:
@@ -75,6 +81,7 @@ services:
       - "4008:4008"
     environment:
       - MONGO_URI=mongodb+srv://moranavraham11:AW9ta2zrTeZiWdSh@cluster0.dogxq.mongodb.net/shopping_cart?retryWrites=true&w=majority&appName=Cluster0
+      - PYTHONIOENCODING=utf-8
     restart: always
 
   search_products:
@@ -85,6 +92,7 @@ services:
       - "4009:4009"
     environment:
       - MONGO_URI=mongodb+srv://moranavraham11:AW9ta2zrTeZiWdSh@cluster0.dogxq.mongodb.net/shopping_cart?retryWrites=true&w=majority&appName=Cluster0
+      - PYTHONIOENCODING=utf-8
     restart: always
 
   sort_cart:
@@ -95,6 +103,7 @@ services:
       - "4010:4010"
     environment:
       - MONGO_URI=mongodb+srv://moranavraham11:AW9ta2zrTeZiWdSh@cluster0.dogxq.mongodb.net/shopping_cart?retryWrites=true&w=majority&appName=Cluster0
+      - PYTHONIOENCODING=utf-8
     restart: always
 
   update_quantity:
@@ -105,17 +114,19 @@ services:
       - "4011:4011"
     environment:
       - MONGO_URI=mongodb+srv://moranavraham11:AW9ta2zrTeZiWdSh@cluster0.dogxq.mongodb.net/shopping_cart?retryWrites=true&w=majority&appName=Cluster0
+      - PYTHONIOENCODING=utf-8
     restart: always
-  get_products:
-      build:
-        context: ./backend/get_products
-      container_name: get_products_service
-      ports:
-        - "4012:4012"
-      environment:
-        - MONGO_URI=mongodb+srv://moranavraham11:AW9ta2zrTeZiWdSh@cluster0.dogxq.mongodb.net/shopping_cart?retryWrites=true&w=majority&appName=Cluster0
-      restart: always
 
+  get_products:
+    build:
+      context: ./backend/get_products
+    container_name: get_products_service
+    ports:
+      - "4012:4012"
+    environment:
+      - MONGO_URI=mongodb+srv://moranavraham11:AW9ta2zrTeZiWdSh@cluster0.dogxq.mongodb.net/shopping_cart?retryWrites=true&w=majority&appName=Cluster0
+      - PYTHONIOENCODING=utf-8
+    restart: always
 
   add_product_nodejs:
     build:
@@ -132,6 +143,7 @@ services:
     ports:
       - "5001:5001"
     restart: always
+
   frontend:
     build:
       context: ./frontend
