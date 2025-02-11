@@ -5,6 +5,8 @@ from werkzeug.security import generate_password_hash
 from flask_mail import Mail, Message
 from dotenv import load_dotenv
 import os
+import jwt
+from functools import wraps
 
 # Cargar variables de entorno desde el archivo .env
 load_dotenv()
@@ -14,7 +16,7 @@ CORS(app)
 
 # Configuración de Flask-Mail
 app.config['MAIL_SERVER'] = os.getenv('MAIL_SERVER')
-app.config['MAIL_PORT'] = os.getenv('MAIL_PORT')
+app.config['MAIL_PORT'] = int(os.getenv('MAIL_PORT'))
 app.config['MAIL_USE_TLS'] = os.getenv('MAIL_USE_TLS') == 'True'
 app.config['MAIL_USERNAME'] = os.getenv('MAIL_USERNAME')
 app.config['MAIL_PASSWORD'] = os.getenv('MAIL_PASSWORD')
@@ -27,8 +29,25 @@ client = MongoClient(
 )
 db = client.shopping_cart
 
+SECRET_KEY = os.getenv('SECRET_KEY', 'your_secret_key')
+
+def token_required(f):
+    @wraps(f)
+    def decorated(*args, **kwargs):
+        token = request.headers.get('Authorization')
+        if not token:
+            return jsonify({"error": "Token is missing!"}), 403
+        try:
+            data = jwt.decode(token, SECRET_KEY, algorithms=['HS256'])
+            current_user = db.users.find_one({"username": data['username']})
+        except:
+            return jsonify({"error": "Token is invalid!"}), 403
+        return f(current_user, *args, **kwargs)
+    return decorated
+
 @app.route('/register', methods=['POST'])
-def register():
+@token_required
+def register(current_user):
     """
     Register a new user with a unique username.
     """
@@ -57,8 +76,8 @@ def register():
 
         return jsonify({"message": "User registered successfully!"}), 201
     except Exception as e:
-        print(f"Error accessing MongoDB: {e}")
-        return jsonify({"error": "Internal server error"}), 500
+        print(f"Error: {e}")
+        return jsonify({"error": str(e)}), 500
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=4007)

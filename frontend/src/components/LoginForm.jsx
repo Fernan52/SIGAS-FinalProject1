@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import "../styles/LoginForm.css"; // Import the CSS file
 
 const LoginForm = () => {
   const [username, setUsername] = useState("");
@@ -21,10 +22,8 @@ const LoginForm = () => {
 
       if (response.ok) {
         localStorage.setItem("username", data.username);
-
         alert("Login successful!");
-        navigate("/home"); 
-
+        navigate("/home");
       } else {
         alert(data.error || "Login failed!");
       }
@@ -35,7 +34,7 @@ const LoginForm = () => {
   };
 
   return (
-    <form onSubmit={handleLogin} style={{ maxWidth: "400px", margin: "0 auto" }}>
+    <form onSubmit={handleLogin} className="login-form">
       <h2>Login</h2>
       <input
         type="text"
@@ -43,7 +42,7 @@ const LoginForm = () => {
         value={username}
         onChange={(e) => setUsername(e.target.value)}
         required
-        style={{ display: "block", margin: "10px 0", padding: "8px", width: "100%" }}
+        className="login-input"
       />
       <input
         type="password"
@@ -51,28 +50,14 @@ const LoginForm = () => {
         value={password}
         onChange={(e) => setPassword(e.target.value)}
         required
-        style={{ display: "block", margin: "10px 0", padding: "8px", width: "100%" }}
+        className="login-input"
       />
-      <button
-        type="submit"
-        style={{
-          backgroundColor: "#3182ce",
-          color: "white",
-          padding: "10px 20px",
-          border: "none",
-          borderRadius: "4px",
-          cursor: "pointer",
-          width: "100%",
-        }}
-      >
+      <button type="submit" className="login-button">
         Login
       </button>
-      <p style={{ marginTop: "10px" }}>
+      <p>
         Don't have an account?{" "}
-        <span
-          onClick={() => navigate("/register")}
-          style={{ cursor: "pointer", color: "blue" }}
-        >
+        <span onClick={() => navigate("/register")} className="register-link">
           Register here
         </span>
       </p>
