@@ -5,6 +5,7 @@ import LoginForm from "./components/LoginForm";
 import RegisterForm from "./components/RegisterForm";
 import ProductListPage from "./pages/ProductListPage";
 import CartPage from "./pages/CartPage";
+import PurchaseHistoryPage from "./pages/PurchaseHistoryPage"; // Import the new page
 import "./App.css";
 
 const App = () => {
@@ -18,6 +19,7 @@ const App = () => {
           <Route path="/products" element={<ProductListPage />} />
           <Route path="/home" element={<HomePage />} />
           <Route path="/cart" element={<CartPage />} />
+          <Route path="/purchase-history" element={<PurchaseHistoryPage />} /> {/* Add the new route */}
         </Routes>
       </div>
     </Router>

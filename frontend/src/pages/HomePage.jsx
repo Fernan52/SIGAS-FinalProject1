@@ -93,6 +93,9 @@ const HomePage = () => {
                 View Cart
               </button>
             )}
+            <button onClick={() => navigate("/purchase-history")} className="view-history-button">
+              View Purchase History
+            </button>
           </div>
 
           <div className="products-container">

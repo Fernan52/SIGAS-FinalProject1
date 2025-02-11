@@ -65,3 +65,14 @@ products = [
 result = db.products.insert_many(products)
 
 print(f"Inserted {len(result.inserted_ids)} products into the database.")
+
+purchase_history = [
+    {"username": "user1", "product_name": "Apple", "quantity": 3, "price": 6, "date": "2025-02-10"},
+    {"username": "user1", "product_name": "Banana", "quantity": 2, "price": 2, "date": "2025-02-11"},
+    {"username": "user2", "product_name": "Milk", "quantity": 1, "price": 4, "date": "2025-02-10"},
+]
+
+db.purchase_history.delete_many({})
+db.purchase_history.insert_many(purchase_history)
+
+print(f"Inserted {len(purchase_history)} purchase history records into the database.")
