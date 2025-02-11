@@ -49,9 +49,26 @@ const CartPage = () => {
   }, [username]);
 
   // Sort cart items by total price (price * quantity)
-  const sortCart = () => {
-    const sortedCart = [...cart].sort((a, b) => (b.price * b.quantity) - (a.price * a.quantity));
-    setCart(sortedCart);
+  const handleSortCart = async () => {
+    try {
+      const response = await fetch(`http://localhost:4010/sort_cart/${username}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to sort cart");
+      }
+
+      const data = await response.json();
+      alert(data.message);
+      setCart((prevCart) => [...prevCart].sort((a, b) => b.total_price - a.total_price));
+    } catch (error) {
+      console.error("Error sorting cart:", error);
+      alert("Failed to sort cart. Please try again later.");
+    }
   };
 
   // Delete a product from the cart
@@ -70,53 +87,26 @@ const CartPage = () => {
         },
         body: JSON.stringify({ username, product_name: productName }),
       });
-    
+
       if (!response.ok) {
         throw new Error("Failed to delete product");
       }
-    
+
       const data = await response.json();
       if (data.error) {
         alert(data.error);
         return;
       }
-    
+
       // Remove the product from the cart state
-      setCart((prevCart) => prevCart.filter((item) => item.name !== productName));
+      setCart((prevCart) => prevCart.filter((item) => item.product_name !== productName));
       alert(`Product '${productName}' has been deleted successfully.`);
     } catch (error) {
-      console.error("Error deleting product at 4003, retrying with 5001...", error);
-    
-      // Retry with fallback server
-      try {
-        const fallbackResponse = await fetch("http://localhost:5001/delete_product", {
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ username, product_name: productName }),
-        });
-    
-        if (!fallbackResponse.ok) {
-          throw new Error("Failed to delete product on fallback server");
-        }
-    
-        const fallbackData = await fallbackResponse.json();
-        if (fallbackData.error) {
-          alert(fallbackData.error);
-          return;
-        }
-    
-        // Remove the product from the cart state
-        setCart((prevCart) => prevCart.filter((item) => item.name !== productName));
-        alert(`Product '${productName}' has been deleted successfully (via fallback server).`);
-      } catch (fallbackError) {
-        console.error("Error deleting product at fallback server (5001):", fallbackError);
-        alert("Failed to delete product after retrying. Please try again later.");
-      }
+      console.error("Error deleting product:", error);
+      alert("Failed to delete product. Please try again later.");
     } finally {
       setIsLoading(false);
-    }    
+    }
   };
 
   // Update quantity on the server
@@ -153,7 +143,7 @@ const CartPage = () => {
   const handleQuantityChange = (productName, delta) => {
     setCart((prevCart) =>
       prevCart.map((item) =>
-        item.name === productName
+        item.product_name === productName
           ? { ...item, quantity: Math.max(1, item.quantity + delta) }
           : item
       )
@@ -169,12 +159,11 @@ const CartPage = () => {
 
     try {
       setIsLoading(true);
-      const response = await fetch("http://localhost:4008/reset_cart", {
+      const response = await fetch(`http://localhost:4008/reset_cart/${username}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ username }),
       });
 
       if (!response.ok) {
@@ -205,7 +194,7 @@ const CartPage = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({}),
+        body: JSON.stringify({ username }),
       });
 
       const data = await response.json();
@@ -247,20 +236,20 @@ const CartPage = () => {
         <>
           <ul className="cart-list">
             {cart.map((item) => (
-              <li key={item._id} className="cart-item">
+              <li key={item.product_name} className="cart-item">
                 <div className="item-details">
-                  <span className="item-name">{item.name}</span>
+                  <span className="item-name">{item.product_name}</span>
                   <span className="item-quantity">
                     Quantity: {item.quantity}
                     <button
                       className="quantity-button"
-                      onClick={() => handleQuantityChange(item.name, -1)}
+                      onClick={() => handleQuantityChange(item.product_name, -1)}
                     >
                       -
                     </button>
                     <button
                       className="quantity-button"
-                      onClick={() => handleQuantityChange(item.name, 1)}
+                      onClick={() => handleQuantityChange(item.product_name, 1)}
                     >
                       +
                     </button>
@@ -272,13 +261,13 @@ const CartPage = () => {
                 <div className="item-actions">
                   <button
                     className="update-button"
-                    onClick={() => updateQuantity(item.name, item.quantity)}
+                    onClick={() => updateQuantity(item.product_name, item.quantity)}
                   >
                     Update Quantity
                   </button>
                   <button
                     className="delete-button"
-                    onClick={() => deleteProduct(item.name)}
+                    onClick={() => deleteProduct(item.product_name)}
                   >
                     Delete
                   </button>
@@ -289,7 +278,7 @@ const CartPage = () => {
           <div className="cart-summary">
             <strong>Total: $ {calculateTotalPrice()}</strong>
           </div>
-          <button className="sort-button" onClick={sortCart}>
+          <button className="sort-button" onClick={handleSortCart}>
             Sort Cart by Price
           </button>
           <button className="reset-button" onClick={resetCart}>

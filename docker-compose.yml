@@ -153,3 +153,13 @@ services:
     stdin_open: true
     tty: true
     restart: always
+
+  purchase_history:
+    build:
+      context: ./backend/purchase_history
+    container_name: purchase_history_service
+    ports:
+      - "4014:4014"
+    environment:
+      - MONGO_URI=mongodb+srv://moranavraham11:AW9ta2zrTeZiWdSh@cluster0.dogxq.mongodb.net/shopping_cart?retryWrites=true&w=majority&appName=Cluster0
+    restart: always

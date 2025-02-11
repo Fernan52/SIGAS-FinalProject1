@@ -80,13 +80,11 @@ const ProductCard = ({ product, onCartUpdate }) => {
         },
         body: JSON.stringify({
           username,
-          name: product.name,
-          category: product.category,
-          price: product.price,
+          product_name: product.name,
           quantity,
         }),
       });
-    
+
       if (response.ok) {
         alert(`${quantity} x ${product.name} added to cart successfully!`);
         onCartUpdate(); // Notify HomePage that the cart state has changed
@@ -96,37 +94,9 @@ const ProductCard = ({ product, onCartUpdate }) => {
         alert(`Error: ${data.error}`);
       }
     } catch (error) {
-      console.error("Error adding product to cart at 4000, retrying with 5000...", error);
-    
-      // Retry with fallback server
-      try {
-        const fallbackResponse = await fetch("http://localhost:5007/add_product", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            username,
-            name: product.name,
-            category: product.category,
-            price: product.price,
-            quantity,
-          }),
-        });
-    
-        if (fallbackResponse.ok) {
-          alert(`${quantity} x ${product.name} added to cart successfully (via fallback server)!`);
-          onCartUpdate(); // Notify HomePage that the cart state has changed
-          setQuantity(1); // Reset quantity
-        } else {
-          const fallbackData = await fallbackResponse.json();
-          alert(`Error from fallback server: ${fallbackData.error}`);
-        }
-      } catch (fallbackError) {
-        console.error("Error adding product to cart at fallback server (5000):", fallbackError);
-        alert("Failed to add product to cart after retrying. Please try again later.");
-      }
-    }    
+      console.error("Error adding product to cart:", error);
+      alert("Failed to add product to cart. Please try again later.");
+    }
   };
 
   return (

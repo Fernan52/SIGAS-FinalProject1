@@ -1,48 +1,43 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from pymongo import MongoClient
-import subprocess
 
 app = Flask(__name__)
-CORS(app)  # Enable CORS for everyone
+CORS(app)
 
-try:
-    client = MongoClient(
-        "mongodb+srv://moranavraham11:AW9ta2zrTeZiWdSh@cluster0.dogxq.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
-    )
-    db = client.shopping_cart
+client = MongoClient("mongodb+srv://moranavraham11:AW9ta2zrTeZiWdSh@cluster0.dogxq.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
+db = client.shopping_cart
 
-    @app.route('/add_product', methods=['POST'])
-    def add_product():
-        data = request.get_json()
-        username = data.get("username")
-        product = {
-            "name": data["name"],
-            "category": data["category"],
-            "price": data["price"],
-            "quantity": data["quantity"]
-        }
+@app.route('/add_product', methods=['POST'])
+def add_product():
+    data = request.get_json()
+    username = data.get('username')
+    product_name = data.get('product_name')
+    quantity = data.get('quantity')
 
-        user = db.users.find_one({"username": username})
-        if not user:
-            return jsonify({"error": "User not found"}), 404
+    if not username or not product_name or not quantity:
+        return jsonify({"error": "Missing required fields"}), 400
 
-        db.users.update_one(
-            {"username": username},
-            {"$push": {"cart": product}}
-        )
+    user_cart = db.carts.find_one({"username": username})
+    if not user_cart:
+        db.carts.insert_one({"username": username, "products": []})
+        user_cart = db.carts.find_one({"username": username})
 
-        return jsonify({"message": "Product added to user's cart successfully!"}), 200
+    product = db.products.find_one({"name": product_name})
+    if not product:
+        return jsonify({"error": "Product not found"}), 404
 
-    if __name__ == "__main__":
-        app.run(host='0.0.0.0', port=4000)
+    cart_products = user_cart["products"]
+    for item in cart_products:
+        if item["product_name"] == product_name:
+            item["quantity"] += quantity
+            break
+    else:
+        cart_products.append({"product_name": product_name, "quantity": quantity, "price": product["price"]})
 
-except Exception as e:
-    print(f"Flask service failed: {e}")
-    print("Attempting to start the Node.js service...")
-    try:
-        # Start the Node.js service
-        subprocess.run(["node", "node_service.js"], check=True)
-    except Exception as node_error:
-        print(f"Node.js service failed: {node_error}")
-        print("Both services failed. Exiting.")
+    db.carts.update_one({"username": username}, {"$set": {"products": cart_products}})
+
+    return jsonify({"message": "Product added to cart"}), 200
+
+if __name__ == "__main__":
+    app.run(host='0.0.0.0', port=4000)
