@@ -1,17 +1,4 @@
-version: '3.8'
-
 services:
-  mongo:
-    image: mongo:latest
-    container_name: mongo
-    environment:
-      - MONGO_INITDB_ROOT_USERNAME=${MONGO_INITDB_ROOT_USERNAME}
-      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_INITDB_ROOT_PASSWORD}
-    ports:
-      - "27017:27017"
-    volumes:
-      - mongo-data:/data/db
-
   add_product:
     build:
       context: ./backend/add_product
@@ -19,10 +6,9 @@ services:
     ports:
       - "4000:4000"
     environment:
-      - MONGO_URI=${MONGO_URI}
+      - MONGO_URI=mongodb+srv://moranavraham11:AW9ta2zrTeZiWdSh@cluster0.dogxq.mongodb.net/shopping_cart?retryWrites=true&w=majority&appName=Cluster0
+      
     restart: always
-    depends_on:
-      - mongo
 
   checkout:
     build:
@@ -31,10 +17,8 @@ services:
     ports:
       - "4002:4002"
     environment:
-      - MONGO_URI=${MONGO_URI}
+      - MONGO_URI=mongodb+srv://moranavraham11:AW9ta2zrTeZiWdSh@cluster0.dogxq.mongodb.net/shopping_cart?retryWrites=true&w=majority&appName=Cluster0
     restart: always
-    depends_on:
-      - mongo
 
   delete_product:
     build:
@@ -43,10 +27,9 @@ services:
     ports:
       - "4003:4003"
     environment:
-      - MONGO_URI=${MONGO_URI}
+      - MONGO_URI=mongodb+srv://moranavraham11:AW9ta2zrTeZiWdSh@cluster0.dogxq.mongodb.net/shopping_cart?retryWrites=true&w=majority&appName=Cluster0
     restart: always
-    depends_on:
-      - mongo
+
 
   get_cart:
     build:
@@ -55,10 +38,8 @@ services:
     ports:
       - "4005:4005"
     environment:
-      - MONGO_URI=${MONGO_URI}
+      - MONGO_URI=mongodb+srv://moranavraham11:AW9ta2zrTeZiWdSh@cluster0.dogxq.mongodb.net/shopping_cart?retryWrites=true&w=majority&appName=Cluster0
     restart: always
-    depends_on:
-      - mongo
 
   login:
     build:
@@ -67,10 +48,8 @@ services:
     ports:
       - "4006:4006"
     environment:
-      - MONGO_URI=${MONGO_URI}
+      - MONGO_URI=mongodb+srv://moranavraham11:AW9ta2zrTeZiWdSh@cluster0.dogxq.mongodb.net/shopping_cart?retryWrites=true&w=majority&appName=Cluster0
     restart: always
-    depends_on:
-      - mongo
 
   register:
     build:
@@ -79,10 +58,14 @@ services:
     ports:
       - "4007:4007"
     environment:
-      - MONGO_URI=${MONGO_URI}
+      - MONGO_URI=mongodb+srv://moranavraham11:AW9ta2zrTeZiWdSh@cluster0.dogxq.mongodb.net/shopping_cart?retryWrites=true&w=majority&appName=Cluster0
+      - MAIL_SERVER=smtp.gmail.com
+      - MAIL_PORT=587
+      - MAIL_USE_TLS=True
+      - MAIL_USERNAME=tu_correo@gmail.com
+      - MAIL_PASSWORD=tu_contraseña_de_gmail
+      - MAIL_DEFAULT_SENDER=tu_correo@gmail.com
     restart: always
-    depends_on:
-      - mongo
 
   reset_cart:
     build:
@@ -91,10 +74,8 @@ services:
     ports:
       - "4008:4008"
     environment:
-      - MONGO_URI=${MONGO_URI}
+      - MONGO_URI=mongodb+srv://moranavraham11:AW9ta2zrTeZiWdSh@cluster0.dogxq.mongodb.net/shopping_cart?retryWrites=true&w=majority&appName=Cluster0
     restart: always
-    depends_on:
-      - mongo
 
   search_products:
     build:
@@ -103,10 +84,8 @@ services:
     ports:
       - "4009:4009"
     environment:
-      - MONGO_URI=${MONGO_URI}
+      - MONGO_URI=mongodb+srv://moranavraham11:AW9ta2zrTeZiWdSh@cluster0.dogxq.mongodb.net/shopping_cart?retryWrites=true&w=majority&appName=Cluster0
     restart: always
-    depends_on:
-      - mongo
 
   sort_cart:
     build:
@@ -115,10 +94,8 @@ services:
     ports:
       - "4010:4010"
     environment:
-      - MONGO_URI=${MONGO_URI}
+      - MONGO_URI=mongodb+srv://moranavraham11:AW9ta2zrTeZiWdSh@cluster0.dogxq.mongodb.net/shopping_cart?retryWrites=true&w=majority&appName=Cluster0
     restart: always
-    depends_on:
-      - mongo
 
   update_quantity:
     build:
@@ -127,22 +104,18 @@ services:
     ports:
       - "4011:4011"
     environment:
-      - MONGO_URI=${MONGO_URI}
+      - MONGO_URI=mongodb+srv://moranavraham11:AW9ta2zrTeZiWdSh@cluster0.dogxq.mongodb.net/shopping_cart?retryWrites=true&w=majority&appName=Cluster0
     restart: always
-    depends_on:
-      - mongo
-
   get_products:
-    build:
-      context: ./backend/get_products
-    container_name: get_products_service
-    ports:
-      - "4012:4012"
-    environment:
-      - MONGO_URI=${MONGO_URI}
-    restart: always
-    depends_on:
-      - mongo
+      build:
+        context: ./backend/get_products
+      container_name: get_products_service
+      ports:
+        - "4012:4012"
+      environment:
+        - MONGO_URI=mongodb+srv://moranavraham11:AW9ta2zrTeZiWdSh@cluster0.dogxq.mongodb.net/shopping_cart?retryWrites=true&w=majority&appName=Cluster0
+      restart: always
+
 
   add_product_nodejs:
     build:
@@ -159,7 +132,6 @@ services:
     ports:
       - "5001:5001"
     restart: always
-
   frontend:
     build:
       context: ./frontend
@@ -169,6 +141,3 @@ services:
     stdin_open: true
     tty: true
     restart: always
-
-volumes:
-  mongo-data:

@@ -4,3 +4,5 @@ werkzeug
 flask_cors
 pytest
 requests
+Flask-Mail
+python-dotenv

@@ -2,9 +2,25 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 from pymongo import MongoClient
 from werkzeug.security import generate_password_hash
+from flask_mail import Mail, Message
+from dotenv import load_dotenv
+import os
+
+# Cargar variables de entorno desde el archivo .env
+load_dotenv()
 
 app = Flask(__name__)
 CORS(app)
+
+# Configuración de Flask-Mail
+app.config['MAIL_SERVER'] = os.getenv('MAIL_SERVER')
+app.config['MAIL_PORT'] = os.getenv('MAIL_PORT')
+app.config['MAIL_USE_TLS'] = os.getenv('MAIL_USE_TLS') == 'True'
+app.config['MAIL_USERNAME'] = os.getenv('MAIL_USERNAME')
+app.config['MAIL_PASSWORD'] = os.getenv('MAIL_PASSWORD')
+app.config['MAIL_DEFAULT_SENDER'] = os.getenv('MAIL_DEFAULT_SENDER')
+
+mail = Mail(app)
 
 client = MongoClient(
     "mongodb+srv://moranavraham11:AW9ta2zrTeZiWdSh@cluster0.dogxq.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
@@ -33,6 +49,11 @@ def register():
         hashed_password = generate_password_hash(password)
         user = {"username": username, "password": hashed_password, "cart": []}  # Add an empty cart
         db.users.insert_one(user)
+
+        # Enviar correo de confirmación
+        msg = Message("Registro Exitoso en SIGAS", recipients=[username])
+        msg.body = f"Hola {username},\n\nRegistro exitoso en el sistema SIGAS, ahora puede ingresar."
+        mail.send(msg)
 
         return jsonify({"message": "User registered successfully!"}), 201
     except Exception as e:
