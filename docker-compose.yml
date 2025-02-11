@@ -173,3 +173,13 @@ services:
     environment:
       - MONGO_URI=mongodb+srv://moranavraham11:AW9ta2zrTeZiWdSh@cluster0.dogxq.mongodb.net/shopping_cart?retryWrites=true&w=majority&appName=Cluster0
     restart: always
+
+  reviews:
+    build:
+      context: ./backend/reviews
+    container_name: reviews_service
+    ports:
+      - "4016:4016"
+    environment:
+      - MONGO_URI=mongodb+srv://moranavraham11:AW9ta2zrTeZiWdSh@cluster0.dogxq.mongodb.net/shopping_cart?retryWrites=true&w=majority&appName=Cluster0
+    restart: always

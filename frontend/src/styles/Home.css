@@ -19,9 +19,16 @@
 .logout-button {
   background-color: white;
   color: red;
-  border: none;
+  border: 1px solid red;
   padding: 10px 20px;
   cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.logout-button:hover {
+  background-color: red;
+  color: white;
 }
 
 .categories-bar {
@@ -33,18 +40,23 @@
 .category-button {
   margin: 0 10px;
   padding: 10px 20px;
-  border: none;
+  border: 1px solid red;
   background-color: red;
   color: white;
   cursor: pointer;
   font-size: 16px;
   border-radius: 5px;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .category-button.active {
   background-color: white;
   color: red;
-  border: 1px solid red;
+}
+
+.category-button:hover {
+  background-color: white;
+  color: red;
 }
 
 .main-content {
@@ -60,12 +72,27 @@
   flex: 1;
 }
 
-.view-cart-button {
+.view-cart-button,
+.view-history-button,
+.view-inventory-button,
+.view-reviews-button {
   background-color: white;
   color: red;
-  border: none;
+  border: 1px solid red;
   padding: 10px 20px;
   cursor: pointer;
+  font-size: 16px;
+  border-radius: 5px;
+  margin-top: 10px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.view-cart-button:hover,
+.view-history-button:hover,
+.view-inventory-button:hover,
+.view-reviews-button:hover {
+  background-color: red;
+  color: white;
 }
 
 .products-container {

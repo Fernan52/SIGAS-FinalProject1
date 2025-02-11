@@ -99,6 +99,9 @@ const HomePage = () => {
             <button onClick={() => navigate("/inventory")} className="view-inventory-button">
               Manage Inventory
             </button>
+            <button onClick={() => navigate("/reviews")} className="view-reviews-button">
+              View Product Reviews
+            </button>
           </div>
 
           <div className="products-container">
