@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import SearchProducts from "../components/SearchProducts";
+import ProjectInfo from "../components/ProjectInfo"; // Import the ProjectInfo component
 import "../styles/Home.css";
 
 const HomePage = () => {
@@ -64,7 +65,7 @@ const HomePage = () => {
   return (
     <div className="main-container">
       <header className="header">
-        <h1>SIGAS</h1>
+        <h1>SIGAS - Supermaxi</h1>
         <button className="logout-button" onClick={handleLogout}>
           Logout
         </button>
@@ -109,6 +110,10 @@ const HomePage = () => {
           </div>
         </div>
       </div>
+
+      <footer className="footer">
+        <ProjectInfo /> {/* Add the ProjectInfo component here */}
+      </footer>
     </div>
   );
 };
