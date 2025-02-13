@@ -27,7 +27,7 @@ jobs:
       with:
         context: ./backend/reset_cart
         push: true
-        tags: your-dockerhub-username/reset_cart_service:latest
+        tags: fernando615/reset_cart_service:latest
 
   deploy:
     runs-on: ubuntu-latest
@@ -43,6 +43,9 @@ jobs:
         host: ${{ secrets.EC2_HOST_RESET_CART }}
         username: ${{ secrets.EC2_USER_RESET_CART }}
         key: ${{ secrets.EC2_KEY_RESET_CART }}
+        port: 22
         script: |
-          docker pull your-dockerhub-username/reset_cart_service:latest
-          docker run -d -p 4007:4007 your-dockerhub-username/reset_cart_service:latest
+          docker stop reset_cart_service || true
+          docker rm reset_cart_service || true
+          docker pull fernando615/reset_cart_service:latest
+          docker run -d -p 4006:4006 --name reset_cart_service fernando615/reset_cart_service:latest
