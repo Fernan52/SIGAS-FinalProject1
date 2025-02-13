@@ -4,7 +4,7 @@ from pymongo import MongoClient
 
 app = Flask(__name__)
 CORS(app)
-
+#database connection 
 client = MongoClient("mongodb+srv://moranavraham11:AW9ta2zrTeZiWdSh@cluster0.dogxq.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
 db = client.shopping_cart
 
