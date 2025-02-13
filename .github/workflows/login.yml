@@ -27,7 +27,7 @@ jobs:
       with:
         context: ./backend/login
         push: true
-        tags: your-dockerhub-username/login_service:latest
+        tags: fernando615/login_service:latest
 
   deploy:
     runs-on: ubuntu-latest
@@ -43,6 +43,9 @@ jobs:
         host: ${{ secrets.EC2_HOST_LOGIN }}
         username: ${{ secrets.EC2_USER_LOGIN }}
         key: ${{ secrets.EC2_KEY_LOGIN }}
+        port: 22
         script: |
-          docker pull your-dockerhub-username/login_service:latest
-          docker run -d -p 4005:4005 your-dockerhub-username/login_service:latest
+          docker stop login_service || true
+          docker rm login_service || true
+          docker pull fernando615/login_service:latest
+          docker run -d -p 4004:4004 --name login_service fernando615/login_service:latest
