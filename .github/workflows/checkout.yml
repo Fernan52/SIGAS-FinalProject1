@@ -27,7 +27,7 @@ jobs:
       with:
         context: ./backend/checkout
         push: true
-        tags: your-dockerhub-username/checkout_service:latest
+        tags: fernando615/checkout_service:latest
 
   deploy:
     runs-on: ubuntu-latest
@@ -43,6 +43,9 @@ jobs:
         host: ${{ secrets.EC2_HOST_CHECKOUT }}
         username: ${{ secrets.EC2_USER_CHECKOUT }}
         key: ${{ secrets.EC2_KEY_CHECKOUT }}
+        port: 22
         script: |
-          docker pull your-dockerhub-username/checkout_service:latest
-          docker run -d -p 4002:4002 your-dockerhub-username/checkout_service:latest
+          docker stop checkout_service || true
+          docker rm checkout_service || true
+          docker pull fernando615/checkout_service:latest
+          docker run -d -p 4001:4001 --name checkout_service fernando615/checkout_service:latest
