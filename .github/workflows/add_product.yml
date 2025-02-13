@@ -1,5 +1,3 @@
-name: CI/CD Pipeline for Add Product Service
-
 on:
   push:
     branches:
@@ -44,5 +42,5 @@ jobs:
         username: ${{ secrets.EC2_USER_ADD_PRODUCT }}
         key: ${{ secrets.EC2_KEY_ADD_PRODUCT }}
         script: |
-          ddocker pull fernando615/add_product_service:latest
+          docker pull fernando615/add_product_service:latest
           docker run -d -p 4000:4000 fernando615/add_product_service:latest
