@@ -18,12 +18,6 @@ const ProjectInfo = () => {
         <li>Purchase History: View the history of purchases made by customers.</li>
         <li>Product Reviews: Allow customers to leave reviews and ratings for products.</li>
       </ul>
-      <h3>Technologies Used:</h3>
-      <ul>
-        <li>Frontend: React, CSS</li>
-        <li>Backend: Flask, MongoDB</li>
-        <li>Containerization: Docker</li>
-      </ul>
     </div>
   );
 };

@@ -22,9 +22,11 @@ const SearchProducts = ({ selectedCategory, onCartUpdate }) => {
     fetchProducts();
   }, [selectedCategory]);
 
-  const filteredProducts = products.filter((product) =>
-    product.name.toLowerCase().includes(query.toLowerCase())
-  );
+  const filteredProducts = products
+    .filter((product) => product.name.toLowerCase().includes(query.toLowerCase()))
+    .reduce((unique, item) => {
+      return unique.some((product) => product.name === item.name) ? unique : [...unique, item];
+    }, []);
 
   return (
     <div style={{ maxWidth: "800px", margin: "0 auto", textAlign: "center" }}>

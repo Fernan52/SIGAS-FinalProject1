@@ -49,36 +49,38 @@ const RegisterForm = () => {
   };
 
   return (
-    <form onSubmit={handleRegister} className="register-form">
-      <h2>Register</h2>
-      {message && <p className="success-message">{message}</p>}
-      {error && <p className="error-message">{error}</p>}
-      <input
-        type="text"
-        placeholder="Username"
-        value={username}
-        onChange={(e) => setUsername(e.target.value)}
-        required
-        className="register-input"
-      />
-      <input
-        type="password"
-        placeholder="Password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        required
-        className="register-input"
-      />
-      <button type="submit" className="register-button">
-        Register
-      </button>
-      <p>
-        Already have an account?{" "}
-        <span onClick={() => navigate("/login")} className="login-link">
-          Log in here
-        </span>
-      </p>
-    </form>
+    <div className="register-container">
+      <form onSubmit={handleRegister} className="register-form">
+        <h2>Register</h2>
+        {message && <p className="success-message">{message}</p>}
+        {error && <p className="error-message">{error}</p>}
+        <input
+          type="text"
+          placeholder="Username"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          required
+          className="register-input"
+        />
+        <input
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+          className="register-input"
+        />
+        <button type="submit" className="register-button">
+          Register
+        </button>
+        <p>
+          Already have an account?{" "}
+          <span onClick={() => navigate("/login")} className="login-link">
+            Log in here
+          </span>
+        </p>
+      </form>
+    </div>
   );
 };
 

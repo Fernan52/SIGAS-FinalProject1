@@ -1,15 +1,49 @@
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f0f0f0;
+}
+
+.login-content {
+  display: flex;
+  justify-content: flex-end; /* Align items to the end */
+  align-items: center;
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  padding: 20px;
+}
+
+.login-image {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 20px; /* Add margin to separate the image from the form */
+}
+
+.login-image img {
+  max-width: 45%; /* Reduce the size of the image */
+  height: auto;
+  border-radius: 10px;
+}
+
 .login-form {
   max-width: 400px;
-  margin: 0 auto;
+  width: 100%;
   padding: 20px;
   background-color: white;
-  border: 1px solid red;
+  border: 1px solid #ddd;
   border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   text-align: center;
 }
 
 .login-form h2 {
-  color: red;
+  color: #d9534f;
   margin-bottom: 20px;
 }
 
@@ -18,7 +52,7 @@
   width: 100%;
   padding: 10px;
   margin: 10px 0;
-  border: 1px solid red;
+  border: 1px solid #ddd;
   border-radius: 5px;
   font-size: 16px;
 }
@@ -26,7 +60,7 @@
 .login-button {
   width: 100%;
   padding: 10px;
-  background-color: red;
+  background-color: #d9534f;
   color: white;
   border: none;
   border-radius: 5px;
@@ -36,15 +70,15 @@
 }
 
 .login-button:hover {
-  background-color: darkred;
+  background-color: #c9302c;
 }
 
 .register-link {
-  color: red;
+  color: #d9534f;
   cursor: pointer;
   text-decoration: underline;
 }
 
 .register-link:hover {
-  color: darkred;
+  color: #c9302c;
 }
