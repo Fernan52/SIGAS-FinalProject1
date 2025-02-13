@@ -44,5 +44,5 @@ jobs:
         username: ${{ secrets.EC2_USER_ADD_PRODUCT }}
         key: ${{ secrets.EC2_KEY_ADD_PRODUCT }}
         script: |
-          docker pull your-dockerhub-username/add_product_service:latest
-          docker run -d -p 4000:4000 your-dockerhub-username/add_product_service:latest
+          ddocker pull fernando615/add_product_service:latest
+          docker run -d -p 4000:4000 fernando615/add_product_service:latest
