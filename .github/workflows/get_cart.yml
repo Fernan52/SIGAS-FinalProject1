@@ -27,7 +27,7 @@ jobs:
       with:
         context: ./backend/get_cart
         push: true
-        tags: your-dockerhub-username/get_cart_service:latest
+        tags: fernando615/get_cart_service:latest
 
   deploy:
     runs-on: ubuntu-latest
@@ -43,6 +43,9 @@ jobs:
         host: ${{ secrets.EC2_HOST_GET_CART }}
         username: ${{ secrets.EC2_USER_GET_CART }}
         key: ${{ secrets.EC2_KEY_GET_CART }}
+        port: 22
         script: |
-          docker pull your-dockerhub-username/get_cart_service:latest
-          docker run -d -p 4004:4004 your-dockerhub-username/get_cart_service:latest
+          docker stop get_cart_service || true
+          docker rm get_cart_service || true
+          docker pull fernando615/get_cart_service:latest
+          docker run -d -p 4003:4003 --name get_cart_service fernando615/get_cart_service:latest
