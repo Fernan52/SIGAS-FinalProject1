@@ -27,10 +27,10 @@ jobs:
       with:
         context: ./backend/search_products
         push: true
-        tags: your-dockerhub-username/search_products_service:latest
+        tags: fernando615/search_products_service:latest
 
   deploy:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest    docker --version
     needs: build-and-push
 
     steps:
@@ -43,6 +43,9 @@ jobs:
         host: ${{ secrets.EC2_HOST_SEARCH_PRODUCTS }}
         username: ${{ secrets.EC2_USER_SEARCH_PRODUCTS }}
         key: ${{ secrets.EC2_KEY_SEARCH_PRODUCTS }}
+        port: 22
         script: |
-          docker pull your-dockerhub-username/search_products_service:latest
-          docker run -d -p 4008:4008 your-dockerhub-username/search_products_service:latest
+          docker stop search_products_service || true
+          docker rm search_products_service || true
+          docker pull fernando615/search_products_service:latest
+          docker run -d -p 4007:4007 --name search_products_service fernando615/search_products_service:latest

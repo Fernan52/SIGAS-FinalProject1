@@ -19,7 +19,7 @@ const CartPage = () => {
 
       try {
         setIsLoading(true);
-        const response = await fetch(`http://localhost:4005/get_cart/${username}`, {
+        const response = await fetch(`http://54.174.103.161:4005/get_cart/${username}`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -51,7 +51,7 @@ const CartPage = () => {
   // Sort cart items by total price (price * quantity)
   const handleSortCart = async () => {
     try {
-      const response = await fetch(`http://localhost:4010/sort_cart/${username}`, {
+      const response = await fetch(`http://54.89.206.242:4010/sort_cart/${username}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -80,7 +80,7 @@ const CartPage = () => {
 
     try {
       setIsLoading(true);
-      const response = await fetch("http://localhost:4003/delete_product", {
+      const response = await fetch("http://3.84.22.249:4026/delete_product", {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
@@ -113,7 +113,7 @@ const CartPage = () => {
   const updateQuantity = async (productName, quantity) => {
     try {
       setIsLoading(true);
-      const response = await fetch("http://localhost:4011/update_quantity", {
+      const response = await fetch("http://54.209.18.140:4011/update_quantity", {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
@@ -159,7 +159,7 @@ const CartPage = () => {
 
     try {
       setIsLoading(true);
-      const response = await fetch(`http://localhost:4008/reset_cart/${username}`, {
+      const response = await fetch(`http://52.55.166.11:4008/reset_cart/${username}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -189,7 +189,7 @@ const CartPage = () => {
   // Proceed to payment (checkout)
   const proceedToPayment = async () => {
     try {
-      const response = await fetch("http://localhost:4002/checkout", {
+      const response = await fetch("http://3.92.225.223:4002/checkout", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

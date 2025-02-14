@@ -27,7 +27,7 @@ jobs:
       with:
         context: ./backend/reviews
         push: true
-        tags: your-dockerhub-username/reviews_service:latest
+        tags: fernando615/reviews_service:latest
 
   deploy:
     runs-on: ubuntu-latest
@@ -43,6 +43,9 @@ jobs:
         host: ${{ secrets.EC2_HOST_REVIEWS }}
         username: ${{ secrets.EC2_USER_REVIEWS }}
         key: ${{ secrets.EC2_KEY_REVIEWS }}
+        port: 22
         script: |
-          docker pull your-dockerhub-username/reviews_service:latest
-          docker run -d -p 4000:4000 your-dockerhub-username/reviews_service:latest
+          docker stop reviews_service || true
+          docker rm reviews_service || true
+          docker pull fernando615/reviews_service:latest
+          docker run -d -p 4013:4013 --name reviews_service fernando615/reviews_service:latest

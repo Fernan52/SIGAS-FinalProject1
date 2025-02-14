@@ -18,7 +18,7 @@ const PurchaseHistoryPage = () => {
 
       try {
         setIsLoading(true);
-        const response = await fetch(`http://localhost:4014/purchase_history/${username}`, {
+        const response = await fetch(`http://52.91.254.133:4014/purchase_history/${username}`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",

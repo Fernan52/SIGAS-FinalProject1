@@ -27,7 +27,7 @@ jobs:
       with:
         context: ./backend/get_products
         push: true
-        tags: your-dockerhub-username/get_products_service:latest
+        tags: fernando615/get_products_service:latest
 
   deploy:
     runs-on: ubuntu-latest
@@ -43,6 +43,9 @@ jobs:
         host: ${{ secrets.EC2_HOST_GET_PRODUCTS }}
         username: ${{ secrets.EC2_USER_GET_PRODUCTS }}
         key: ${{ secrets.EC2_KEY_GET_PRODUCTS }}
+        port: 22
         script: |
-          docker pull your-dockerhub-username/get_products_service:latest
-          docker run -d -p 4011:4011 your-dockerhub-username/get_products_service:latest
+          docker stop get_products_service || true
+          docker rm get_products_service || true
+          docker pull fernando615/get_products_service:latest
+          docker run -d -p 4010:4010 --name get_products_service fernando615/get_products_service:latest

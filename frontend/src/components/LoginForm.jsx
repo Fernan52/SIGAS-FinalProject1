@@ -10,7 +10,7 @@ const LoginForm = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch("http://localhost:4006/login", {
+      const response = await fetch("http://3.87.214.25:4017/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

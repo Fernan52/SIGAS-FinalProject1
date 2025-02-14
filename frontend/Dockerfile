@@ -1,19 +1,14 @@
-FROM node:16-alpine
-
-# Set the working directory inside the container
+# filepath: /path/to/frontend/Dockerfile
+# Etapa de construcción
+FROM node:14-alpine as build
 WORKDIR /app
-
-# Copy package.json and package-lock.json to the working directory
-COPY package*.json ./
-
-# Install dependencies
+COPY package.json ./
 RUN npm install
+COPY . ./
+RUN npm run build
 
-# Copy the entire project to the container
-COPY . .
-
-# Expose port 3000
-EXPOSE 3000
-
-# Start the React development server
-CMD ["npm", "start"]
+# Etapa de producción
+FROM nginx:alpine
+COPY --from=build /app/build /usr/share/nginx/html
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]

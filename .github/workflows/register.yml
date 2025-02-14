@@ -27,7 +27,7 @@ jobs:
       with:
         context: ./backend/register
         push: true
-        tags: your-dockerhub-username/register_service:latest
+        tags: fernando615/register_service:latest
 
   deploy:
     runs-on: ubuntu-latest
@@ -43,6 +43,17 @@ jobs:
         host: ${{ secrets.EC2_HOST_REGISTER }}
         username: ${{ secrets.EC2_USER_REGISTER }}
         key: ${{ secrets.EC2_KEY_REGISTER }}
+        port: 22
         script: |
-          docker pull your-dockerhub-username/register_service:latest
-          docker run -d -p 4006:4006 your-dockerhub-username/register_service:latest
+          docker stop register_service || true
+          docker rm register_service || true
+          docker pull fernando615/register_service:latest
+          docker run -d -p 4007:4007 --name register_service \
+            -e MAIL_SERVER=smtp.gmail.com \
+            -e MAIL_PORT=587 \
+            -e MAIL_USE_TLS=True \
+            -e MAIL_USERNAME=tu_correo@gmail.com \
+            -e MAIL_PASSWORD=tu_contraseña_de_gmail \
+            -e MAIL_DEFAULT_SENDER=tu_correo@gmail.com \
+            -e SECRET_KEY=your_secret_key \
+            fernando615/register_service:latest

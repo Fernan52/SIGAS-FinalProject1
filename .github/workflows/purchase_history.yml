@@ -27,7 +27,7 @@ jobs:
       with:
         context: ./backend/purchase_history
         push: true
-        tags: your-dockerhub-username/purchase_history_service:latest
+        tags: fernando615/purchase_history_service:latest
 
   deploy:
     runs-on: ubuntu-latest
@@ -43,6 +43,9 @@ jobs:
         host: ${{ secrets.EC2_HOST_PURCHASE_HISTORY }}
         username: ${{ secrets.EC2_USER_PURCHASE_HISTORY }}
         key: ${{ secrets.EC2_KEY_PURCHASE_HISTORY }}
+        port: 22
         script: |
-          docker pull your-dockerhub-username/purchase_history_service:latest
-          docker run -d -p 4012:4012 your-dockerhub-username/purchase_history_service:latest
+          docker stop purchase_history_service || true
+          docker rm purchase_history_service || true
+          docker pull fernando615/purchase_history_service:latest
+          docker run -d -p 4011:4011 --name purchase_history_service fernando615/purchase_history_service:latest

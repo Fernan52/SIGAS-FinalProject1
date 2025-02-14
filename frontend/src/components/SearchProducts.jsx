@@ -8,8 +8,8 @@ const SearchProducts = ({ selectedCategory, onCartUpdate }) => {
     const fetchProducts = async () => {
       try {
         const url = selectedCategory
-          ? `http://localhost:4012/get_products?category=${selectedCategory}`
-          : "http://localhost:4012/get_products";
+          ? `http://54.90.92.114:4012/get_products?category=${selectedCategory}`
+          : "http://54.90.92.114:4012/get_products";
 
         const response = await fetch(url);
         const data = await response.json();
@@ -75,7 +75,7 @@ const ProductCard = ({ product, onCartUpdate }) => {
     }
 
     try {
-      const response = await fetch("http://localhost:4000/add_product", {
+      const response = await fetch("http://18.212.3.158:5000/add_product", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
