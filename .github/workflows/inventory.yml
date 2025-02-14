@@ -27,7 +27,7 @@ jobs:
       with:
         context: ./backend/inventory
         push: true
-        tags: your-dockerhub-username/inventory_service:latest
+        tags: fernando615/inventory_service:latest
 
   deploy:
     runs-on: ubuntu-latest
@@ -43,6 +43,9 @@ jobs:
         host: ${{ secrets.EC2_HOST_INVENTORY }}
         username: ${{ secrets.EC2_USER_INVENTORY }}
         key: ${{ secrets.EC2_KEY_INVENTORY }}
+        port: 22
         script: |
-          docker pull your-dockerhub-username/inventory_service:latest
-          docker run -d -p 4000:4000 your-dockerhub-username/inventory_service:latest
+          docker stop inventory_service || true
+          docker rm inventory_service || true
+          docker pull fernando615/inventory_service:latest
+          docker run -d -p 4012:4012 --name inventory_service fernando615/inventory_service:latest
